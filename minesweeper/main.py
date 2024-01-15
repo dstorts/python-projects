@@ -25,7 +25,7 @@ def check_win():
     all_bombs_flagged = True
     all_nonbombs_revealed = True
     for tile in tiles:
-        if tile.bomb and tile.flagged:
+        if tile.bomb and not tile.flagged:
             #here if tile has a bomb and is NOT flagged (necessary to win)
             all_bombs_flagged = False
         if not tile.bomb and not tile.revealed:
@@ -36,7 +36,7 @@ def check_win():
     return False
 
 def tile_select(tile):
-    global game_over
+    global game_over #let python know we want to use the global variable game_over
     if is_flag_mode and not game_over:
         #toggle a flag on the tile
         if tile.flagged:
