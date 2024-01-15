@@ -1,0 +1,5 @@
+#this python app will send emails to friends whos emails and birthday dates are saved in a local spreadsheet
+#Email Providers
+#gmail: smtp.gmail.com
+#hotmail: smtp.live.com
+#outlook: outlook.office365.com

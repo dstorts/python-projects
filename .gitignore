@@ -1,0 +1,9 @@
+**/venv/**
+**/.idea
+**/Lib
+**/Scripts
+**/*.cfg
+**/__pycache__
+**/build
+**/dist/**/
+**/*.spec

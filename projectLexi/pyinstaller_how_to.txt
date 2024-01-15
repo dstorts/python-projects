@@ -1,0 +1,6 @@
+this is a guide of how to use pyInstaller to create a single exe file from a python project
+
+IN YOUR TERMINAL YOU MUST HAVE CURRENT WORKING DIRECTORY SET TO YOUR PROJECT ROOT FOLDER
+
+cmd:
+pyinstaller --onefile --noconsole --noupx <main_python_file>.py
