@@ -1,13 +1,12 @@
 import requests
 from pokemon import Pokemon
 from html.parser import HTMLParser
-from html.entities import name2codepoint
 
 # parser doc - https://docs.python.org/3/library/html.parser.html#examples
 # request doc - https://requests.readthedocs.io/en/latest/
 #
 #
-debug = True
+debug = False
 expression_list = ['class,infocard-cell-data',
                    'class,ent-name',
                    'class,type-icon type-',
@@ -58,8 +57,9 @@ class PokemonDBHTMLParser(HTMLParser):
                 #here if a stat
                 #there are 7 stat numbers
                 #in order, those stats are total, hp, atk, def, spatk, spdef, speed
+                if debug:
+                    print(f"Stat Index:{stat_count}")
                 stat_count += 1
-                print(f"Stat Index:{stat_count}")
                 if   stat_count == 1:
                     pdata.append(f"total:{data}")
                 elif stat_count == 2:
@@ -86,11 +86,8 @@ class PokemonDBHTMLParser(HTMLParser):
                 pdata.clear()
 
 parser = PokemonDBHTMLParser()
-# parser.feed('<html><head><title>Test</title></head>'
-#             '<body><h1>Parse me!</h1></body></html>')
-
-#url = 'https://pokemondb.net/pokedex/all'
-#r = requests.get(url)
+url = 'https://pokemondb.net/pokedex/all'
+r = requests.get(url)
 
 '''
 Looking for: [0]dex num, [1]name, [2]type1, [3]type2, [4]stat total, [5]hp, [6]atk, [7]def, [8]spatk, [9]spdef, [10]spe
@@ -126,5 +123,7 @@ parser.feed('<tr>'
             '<td class="cell-num">65</td>'
             '</tr>')
 """
-ndex_puke = open("pokemon_national_dex_puke.txt", "r")
-parser.feed(ndex_puke.read())
+parser.feed(r.text)
+#ndex_puke = open("pokemon_national_dex_puke.txt", "r")
+#parser.feed(ndex_puke.read())
+print(len(pokedex))
