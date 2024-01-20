@@ -59,6 +59,7 @@ class PokemonDBHTMLParser(HTMLParser):
                 #there are 7 stat numbers
                 #in order, those stats are total, hp, atk, def, spatk, spdef, speed
                 stat_count += 1
+                print(f"Stat Index:{stat_count}")
                 if   stat_count == 1:
                     pdata.append(f"total:{data}")
                 elif stat_count == 2:
@@ -94,7 +95,7 @@ parser = PokemonDBHTMLParser()
 '''
 Looking for: [0]dex num, [1]name, [2]type1, [3]type2, [4]stat total, [5]hp, [6]atk, [7]def, [8]spatk, [9]spdef, [10]spe
 '''
-
+"""
 parser.feed('<table id="pokedex" class="data-table sticky-header block-wide">'
             '<thead>'
             '<tr>'
@@ -124,6 +125,6 @@ parser.feed('<tr>'
             '<td class="cell-num">50</td>'
             '<td class="cell-num">65</td>'
             '</tr>')
-
-#ndex_puke = open("pokemon_national_dex_puke.txt", "r")
-#parser.feed(ndex_puke.read())
+"""
+ndex_puke = open("pokemon_national_dex_puke.txt", "r")
+parser.feed(ndex_puke.read())
