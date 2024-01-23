@@ -7,3 +7,8 @@
 **/build
 **/dist/**/
 **/*.spec
+
+#elden calc files
+**/data/*.xlsx
+**/data/*.pdf
+**/data/.~lock*.csv#
