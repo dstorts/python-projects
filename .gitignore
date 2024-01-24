@@ -12,3 +12,4 @@
 **/data/*.xlsx
 **/data/*.pdf
 **/data/.~lock*.csv#
+**/data/*.csv~
