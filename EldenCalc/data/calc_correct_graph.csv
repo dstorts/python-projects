@@ -1,4 +1,4 @@
-ID,Used For,Stat 0,Stat 1,Stat 2,Stat 3,Stat 4,Grow 0,Grow 1,Grow 2,Grow 3,Grow 4,Exponent 0,Exponent 1,Exponent 2,Exponent 3,Exponent 4
+ID,Use,Stat0,Stat1,Stat2,Stat3,Stat4,Grow0,Grow1,Grow2,Grow3,Grow4,Exponent0,Exponent1,Exponent2,Exponent3,Exponent4
 0,Weapon Scaling (Default),1,18,60,80,150,0,25,75,90,110,1.2,-1.2,1,1,1
 1,Weapon Scaling (Heavy),1,20,60,80,150,0,35,75,90,110,1.2,-1.2,1,1,1
 2,Weapon Scaling (Keen),1,20,60,80,150,0,35,75,90,110,1.2,-1.2,1,1,1

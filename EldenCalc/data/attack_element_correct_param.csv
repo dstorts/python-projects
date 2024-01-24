@@ -1,4 +1,4 @@
-Row ID,Physical Scaling: STR,Physical Scaling: DEX,Physical Scaling: INT,Physical Scaling: FAI,Physical Scaling: ARC,Magic Scaling: STR,Magic Scaling: DEX,Magic Scaling: INT,Magic Scaling: FAI,Magic Scaling: ARC,Fire Scaling: STR,Fire Scaling: DEX,Fire Scaling: INT,Fire Scaling: FAI,Fire Scaling: ARC,Lightning Scaling: STR,Lightning Scaling: DEX,Lightning Scaling: INT,Lightning Scaling: FAI,Lightning Scaling: ARC,Holy Scaling: STR,Holy Scaling: DEX,Holy Scaling: INT,Holy Scaling: FAI,Holy Scaling: ARC
+ID,str_scaling,dex_scaling,int_scaling,fai_scaling,arc_scaling,magic_str_scaling,magic_dex_scaling,magic_int_scaling,magic_fai_scaling,magic_arc_scaling,fire_str_scaling,fire_dex_scaling,fire_int_scaling,fire_fai_scaling,fire_arc_scaling,thun_str_scaling,thun_dex_scaling,thun_int_scaling,thun_fai_scaling,thun_arc_scaling,holy_str_scaling,holy_dex_scaling,holy_int_scaling,holy_fai_scaling,holy_arc_scaling
 10000,1,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,1,0
 10005,1,1,0,0,0,0,0,1,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,1,0
 10013,1,1,0,0,1,0,0,1,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,1,0
