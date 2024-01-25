@@ -38,6 +38,8 @@ weapon_upgrade_lvl = 5
 player_str = 14
 player_dex = 14
 player_int = 40
+player_fai = 1
+player_arc = 1
 #*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
 
 def get_weapon_stats(wep_name, print_table):
@@ -140,7 +142,7 @@ def helper_get_exp_min(calc_correct_params, player_stat):
     elif player_stat < calc_correct_params['Stat4'] and player_stat > calc_correct_params['Stat3']:
         return calc_correct_params['Exponent3']
 
-def get_phys_atk_calc_correction_factor(calc_correct_params, player_stat):
+def calc_weapon_atk_calc_correction_factor(calc_correct_params, player_stat):
     stat_min = helper_get_stat_min(calc_correct_params, player_stat)
     stat_max = helper_get_stat_max(calc_correct_params, player_stat)
     exp_min = helper_get_exp_min(calc_correct_params, player_stat)
@@ -154,15 +156,36 @@ def get_phys_atk_calc_correction_factor(calc_correct_params, player_stat):
         growth = 1 - ((1 - ratio)**abs(exp_min))
     return (grow_min + ((grow_max - grow_min) * growth)) / 100
 
+def calc_weapon_dmg_bonus(base_wep, correction_factor, stat_choice):
+    if   stat_choice == 'str':
+        return base_wep.phys_atk * (base_wep.str_scale / 100) * correction_factor
+    elif stat_choice == 'dex':
+        return base_wep.phys_atk * (base_wep.dex_scale / 100) * correction_factor
+    elif stat_choice == 'int':
+        return base_wep.phys_atk * (base_wep.int_scale / 100) * correction_factor
+
 weapon_stats = get_weapon_stats(weapon_name, False)
 print(f"Attack Element ID: {weapon_stats.attack_element_correct_id}")
 weapon_scalers = get_upgrading_multipliers(weapon_stats.reinforce_type_id, weapon_upgrade_lvl)
 upgraded_weapon_stats = get_upgraded_weapon_stats(weapon_stats, weapon_scalers)
 print(upgraded_weapon_stats)
+
 calc_correct_ids = get_calc_correct_graph_ids(weapon_name)
 calc_correct_graph_params = get_calc_correct_params(calc_correct_ids.physical)
 #print(calc_correct_graph_params)
+
 stat_scale_bools = get_stat_scale_bools(weapon_stats.attack_element_correct_id)
 #print(stat_scale_bools)
-str_calc_correction = get_phys_atk_calc_correction_factor(calc_correct_graph_params, player_str)
-print(str_calc_correction)
+
+str_calc_correction = calc_weapon_atk_calc_correction_factor(calc_correct_graph_params, player_str)
+dex_calc_correction = calc_weapon_atk_calc_correction_factor(calc_correct_graph_params, player_dex)
+int_calc_correction = calc_weapon_atk_calc_correction_factor(calc_correct_graph_params, player_int)
+#print(f"Str Factor: {str_calc_correction}, Dex Factor: {dex_calc_correction}, Int Factor: {int_calc_correction}")
+
+damage_bonus_str = calc_weapon_dmg_bonus(upgraded_weapon_stats, str_calc_correction, 'str')
+damage_bonus_dex = calc_weapon_dmg_bonus(upgraded_weapon_stats, dex_calc_correction, 'dex')
+damage_bonus_int = calc_weapon_dmg_bonus(upgraded_weapon_stats, str_calc_correction, 'int')
+#print(f"Str Dmg Bonus: {damage_bonus_str}, Dex Dmg Bonus: {damage_bonus_dex}, Int Dmg Bonus: {damage_bonus_int}")
+
+phys_dmg_final = upgraded_weapon_stats.phys_atk + damage_bonus_str + damage_bonus_dex
+print(f"Phys. Dmg Final: {phys_dmg_final}")
