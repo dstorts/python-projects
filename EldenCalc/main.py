@@ -34,14 +34,16 @@ attack_element_correct_param = pandas.read_csv('./data/attack_element_correct_pa
 
 #*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
 stat_list = ['str', 'dex', 'int', 'fai', 'arc']
-weapon_name = 'Cold Dagger'
-weapon_upgrade_lvl = 5
-player_str = 14
-player_dex = 14
-player_int = 40
-player_fai = 1
-player_arc = 1
-player_stats = pandas.Series([14, 14, 40, 1, 1],
+#weapon_name = 'Keen Hookclaws'
+#weapon_name = 'Keen Bloodhound Claws'
+weapon_name = 'Heavy Raptor Talons'
+weapon_upgrade_lvl = 23
+player_str = 40
+player_dex = 20
+player_int = 18
+player_fai = 9
+player_arc = 8
+player_stats = pandas.Series([player_str, player_dex, player_int, player_fai, player_arc],
                              index=stat_list)
 #*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
 
@@ -98,58 +100,58 @@ def get_stat_scale_bools(attack_element_id):
             return element_bools
 
 def helper_get_stat_min(calc_correct_params, player_stat):
-    if player_stat < calc_correct_params['Stat1']:
+    if player_stat <= calc_correct_params['Stat1']:
         return calc_correct_params['Stat0']
-    elif player_stat < calc_correct_params['Stat2'] and player_stat > calc_correct_params['Stat1']:
+    elif player_stat <= calc_correct_params['Stat2'] and player_stat >= calc_correct_params['Stat1']:
         return calc_correct_params['Stat1']
-    elif player_stat < calc_correct_params['Stat3'] and player_stat > calc_correct_params['Stat2']:
+    elif player_stat <= calc_correct_params['Stat3'] and player_stat >= calc_correct_params['Stat2']:
         return calc_correct_params['Stat2']
-    elif player_stat < calc_correct_params['Stat4'] and player_stat > calc_correct_params['Stat3']:
+    elif player_stat <= calc_correct_params['Stat4'] and player_stat >= calc_correct_params['Stat3']:
         return calc_correct_params['Stat3']
 
 def helper_get_stat_max(calc_correct_params, player_stat):
-    if player_stat < calc_correct_params['Stat1']:
+    if player_stat <= calc_correct_params['Stat1']:
         return calc_correct_params['Stat1']
-    elif player_stat < calc_correct_params['Stat2'] and player_stat > calc_correct_params['Stat1']:
+    elif player_stat <= calc_correct_params['Stat2'] and player_stat >= calc_correct_params['Stat1']:
         return calc_correct_params['Stat2']
-    elif player_stat < calc_correct_params['Stat3'] and player_stat > calc_correct_params['Stat2']:
+    elif player_stat <= calc_correct_params['Stat3'] and player_stat >= calc_correct_params['Stat2']:
         return calc_correct_params['Stat3']
-    elif player_stat < calc_correct_params['Stat4'] and player_stat > calc_correct_params['Stat3']:
+    elif player_stat <= calc_correct_params['Stat4'] and player_stat >= calc_correct_params['Stat3']:
         return calc_correct_params['Stat4']
 
 def helper_get_grow_min(calc_correct_params, player_stat):
-    if player_stat < calc_correct_params['Stat1']:
+    if player_stat <= calc_correct_params['Stat1']:
         return calc_correct_params['Grow0']
-    elif player_stat < calc_correct_params['Stat2'] and player_stat > calc_correct_params['Stat1']:
+    elif player_stat <= calc_correct_params['Stat2'] and player_stat >= calc_correct_params['Stat1']:
         return calc_correct_params['Grow1']
-    elif player_stat < calc_correct_params['Stat3'] and player_stat > calc_correct_params['Stat2']:
+    elif player_stat <= calc_correct_params['Stat3'] and player_stat >= calc_correct_params['Stat2']:
         return calc_correct_params['Grow2']
-    elif player_stat < calc_correct_params['Stat4'] and player_stat > calc_correct_params['Stat3']:
+    elif player_stat <= calc_correct_params['Stat4'] and player_stat >= calc_correct_params['Stat3']:
         return calc_correct_params['Grow3']
 
 def helper_get_grow_max(calc_correct_params, player_stat):
-    if player_stat < calc_correct_params['Stat1']:
+    if player_stat <= calc_correct_params['Stat1']:
         return calc_correct_params['Grow1']
-    elif player_stat < calc_correct_params['Stat2'] and player_stat > calc_correct_params['Stat1']:
+    elif player_stat <= calc_correct_params['Stat2'] and player_stat >= calc_correct_params['Stat1']:
         return calc_correct_params['Grow2']
-    elif player_stat < calc_correct_params['Stat3'] and player_stat > calc_correct_params['Stat2']:
+    elif player_stat <= calc_correct_params['Stat3'] and player_stat >= calc_correct_params['Stat2']:
         return calc_correct_params['Grow3']
-    elif player_stat < calc_correct_params['Stat4'] and player_stat > calc_correct_params['Stat3']:
+    elif player_stat <= calc_correct_params['Stat4'] and player_stat >= calc_correct_params['Stat3']:
         return calc_correct_params['Grow4']
 
 def helper_get_exp_min(calc_correct_params, player_stat):
-    if player_stat < calc_correct_params['Stat1']:
+    if player_stat <= calc_correct_params['Stat1']:
         return calc_correct_params['Exponent0']
-    elif player_stat < calc_correct_params['Stat2'] and player_stat > calc_correct_params['Stat1']:
+    elif player_stat <= calc_correct_params['Stat2'] and player_stat >= calc_correct_params['Stat1']:
         return calc_correct_params['Exponent1']
-    elif player_stat < calc_correct_params['Stat3'] and player_stat > calc_correct_params['Stat2']:
+    elif player_stat <= calc_correct_params['Stat3'] and player_stat >= calc_correct_params['Stat2']:
         return calc_correct_params['Exponent2']
-    elif player_stat < calc_correct_params['Stat4'] and player_stat > calc_correct_params['Stat3']:
+    elif player_stat <= calc_correct_params['Stat4'] and player_stat >= calc_correct_params['Stat3']:
         return calc_correct_params['Exponent3']
 
 def calc_phys_atk_calc_correction_factors(calc_correct_params, wep_stat_bools, player_stats):
     global stat_list
-    correction_factors = pandas.Series([0, 0, 0, 0, 0],
+    correction_factors = pandas.Series([0.0, 0.0, 0.0, 0.0, 0.0],
                                        index=stat_list)
     index = 0
     for player_stat in player_stats:
@@ -172,7 +174,7 @@ def calc_phys_atk_calc_correction_factors(calc_correct_params, wep_stat_bools, p
 
 def calc_magic_atk_calc_correction_factors(calc_correct_params, wep_stat_bools, player_stats):
     global stat_list
-    correction_factors = pandas.Series([0, 0, 0, 0, 0],
+    correction_factors = pandas.Series([0.0, 0.0, 0.0, 0.0, 0.0],
                                        index=stat_list)
     index = 0
     for player_stat in player_stats:
@@ -195,7 +197,7 @@ def calc_magic_atk_calc_correction_factors(calc_correct_params, wep_stat_bools, 
 
 def calc_weapon_dmg_bonuses(base_wep, correction_factors, dmg_type):
     global stat_list
-    dmg_bonuses = pandas.Series([0, 0, 0, 0, 0],
+    dmg_bonuses = pandas.Series([0.0, 0.0, 0.0, 0.0, 0.0],
                                        index=stat_list)
     index = 0
     for correction_factor in correction_factors:
@@ -221,14 +223,13 @@ stat_scale_bools = get_stat_scale_bools(weapon_stats.attack_element_correct_id)
 #print(stat_scale_bools)
 
 phys_correction_factors = calc_phys_atk_calc_correction_factors(calc_correct_graph_params, stat_scale_bools, player_stats)
-magic_correction_factors = calc_magic_atk_calc_correction_factors(calc_correct_graph_params, stat_scale_bools, player_stats)
-print(phys_correction_factors)
-print(magic_correction_factors)
-#good to here
-#magic damage miscalculated after here
+#magic_correction_factors = calc_magic_atk_calc_correction_factors(calc_correct_graph_params, stat_scale_bools, player_stats)
+#print(phys_correction_factors)
+#print(magic_correction_factors)
+
 phys_damage_bonuses = calc_weapon_dmg_bonuses(upgraded_weapon_stats, phys_correction_factors, 'phys')
-magic_damage_bonuses = calc_weapon_dmg_bonuses(upgraded_weapon_stats, magic_correction_factors, 'magic')
-print(phys_damage_bonuses)
-print(magic_damage_bonuses)
+#magic_damage_bonuses = calc_weapon_dmg_bonuses(upgraded_weapon_stats, magic_correction_factors, 'magic')
+#print(phys_damage_bonuses)
+#print(magic_damage_bonuses)
 print(f"Phys. Dmg Final: {calc_total_dmg(upgraded_weapon_stats, phys_damage_bonuses, 'phys')}")
-print(f"Magic Dmg Final: {calc_total_dmg(upgraded_weapon_stats, magic_damage_bonuses, 'magic')}")
+#print(f"Magic Dmg Final: {calc_total_dmg(upgraded_weapon_stats, magic_damage_bonuses, 'magic')}")
