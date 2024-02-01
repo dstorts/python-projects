@@ -31,6 +31,6 @@ class Car:
         self.engine = kwargs.get("engine")
         #using get func with a dictionary will just return None if there is no argument provided to initialize it
 
-my_car = Car(make="nissan", model="gtr")
+my_car = Car(make="nissan", model="gtr", engine="VQ_v6")
 print(my_car.model)
 print(my_car.engine)

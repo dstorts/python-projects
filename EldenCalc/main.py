@@ -23,7 +23,11 @@ plug into the formula below
 *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
 
 '''
+import tkinter
+import tkinter.ttk
+
 import pandas
+from tkinter import *
 
 raw_weapon_data = pandas.read_csv('./data/raw_data.csv')
 equip_param_weapon = pandas.read_csv('./data/equip_param_weapon.csv')
@@ -34,10 +38,10 @@ attack_element_correct_param = pandas.read_csv('./data/attack_element_correct_pa
 
 #*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
 stat_list = ['str', 'dex', 'int', 'fai', 'arc']
-weapon_name = 'Cold Dagger'
-#weapon_name = 'Bloodhound Claws'
-#weapon_name = 'Raptor Talons'
-weapon_upgrade_lvl = 9
+weapon_type = 'Claw'
+weapon_name = "Warhawk's Keen Talon"
+#weapon_name = 'Keen Raptor Talons'
+weapon_upgrade_lvl = 15
 player_str = 15
 player_dex = 48
 player_int = 18
@@ -46,6 +50,36 @@ player_arc = 9
 player_stats = pandas.Series([player_str, player_dex, player_int, player_fai, player_arc],
                              index=stat_list)
 #*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+def set_weapon_upgrade_lvl(lvl):
+    global weapon_upgrade_lvl
+    weapon_upgrade_lvl = lvl
+
+def set_weapon_name(name):
+    global weapon_name
+    weapon_name = name
+
+def set_player_stats(str, dex, int, fai, arc):
+    player_stats.str = str
+    player_stats.dex = dex
+    player_stats.int = int
+    player_stats.fai = fai
+    player_stats.arc = arc
+
+def get_weapon_type(wep_name):
+    global raw_weapon_data
+    for index, weapon in raw_weapon_data.iterrows():
+        if weapon['Name'] == wep_name:
+            return weapon['Weapon Type']
+
+def get_weapons_by_type(wep_type):
+    global raw_weapon_data
+    data = pandas.DataFrame(columns=['id', 'name', 'wep_type', 'dmg_type'])
+    for index, weapon in raw_weapon_data.iterrows():
+        if weapon['Weapon Type'] == wep_type:
+            new_data = pandas.DataFrame([[weapon.ID, weapon.Name,weapon['Weapon Type'],weapon['Physical Damage Type']]], columns=data.columns)
+            data = pandas.concat([new_data, data], ignore_index=True)
+            data.reset_index()
+    return data
 
 def get_weapon_stats(wep_name, print_table):
     global equip_param_weapon
@@ -230,5 +264,88 @@ def calc_all_damage_totals(wep_name, player_stats, weapon_upgrade_lvl, debug=Fal
     return pandas.Series([phys_total, magic_total, fire_total, thun_total, holy_total],
                          index=['phys_total', 'magic_total', 'fire_total', 'thun_total', 'holy_total', ])
 
+#print(f"Choice: {weapon_name}")
+#print(f"Weapon Type: {get_weapon_type(weapon_name)}")
+#print(calc_all_damage_totals(weapon_name, player_stats, weapon_upgrade_lvl))
+#print(get_weapons_by_type(weapon_type))
 
-print(calc_all_damage_totals(weapon_name, player_stats, weapon_upgrade_lvl))
+root = Tk()
+root.title('Elden Weapon Calc')
+root.config(width=800, height=600, padx=50, pady=30)
+
+frame_wep_type = Frame(root, height=20, width=500)
+frame_wep_type.place(x=20, y=20)
+lbl_wep_type = Label(frame_wep_type, text="Weapon Type:")
+ddown_wep_type = tkinter.ttk.Combobox(frame_wep_type)
+lbl_wep_type.pack(side=LEFT)
+ddown_wep_type.pack(side=LEFT)
+
+frame_wep_of_type = Frame(root, height=20, width=500)
+frame_wep_of_type.place(x=20, y=50)
+lbl_wep_of_type = tkinter.Label(frame_wep_of_type, text="Weapons of that Type:")
+ddown_wep_of_type = tkinter.ttk.Combobox(frame_wep_of_type)
+lbl_wep_of_type.pack(side=LEFT)
+ddown_wep_of_type.pack(side=LEFT)
+
+frame_wep_search = Frame(root, height=20, width=50)
+frame_wep_search.place(x=20, y=80)
+lbl_wep_literal = Label(frame_wep_search, text="Weapon Search:")
+entry_wep_name = tkinter.Entry(frame_wep_search)
+lbl_wep_literal.pack(side=LEFT)
+entry_wep_name.pack(side=RIGHT)
+lbl_wep_suggestions = Label(root, text="Suggestions:")
+lbl_wep_suggestions.place(x=20, y=110)
+lbox_wep_suggestions = Listbox(root, width=40, height=20)
+lbox_wep_suggestions.place(x=20, y=150)
+
+frame_str = Frame(root, height=20)
+frame_str.place(x=300, y=20)
+lbl_str = Label(frame_str, text="Strength:")
+entry_str = Entry(frame_str)
+lbl_str.pack(side=LEFT)
+entry_str.pack(side=RIGHT)
+
+frame_dex = Frame(root, height=20)
+frame_dex.place(x=300, y=50)
+lbl_dex = Label(frame_dex, text="Dexterity:")
+entry_dex = Entry(frame_dex)
+lbl_dex.pack(side=LEFT)
+entry_dex.pack(side=RIGHT)
+
+frame_int = Frame(root, height=20)
+frame_int.place(x=300, y=80)
+lbl_int = Label(frame_int, text="Intelligence:")
+entry_int = Entry(frame_int)
+lbl_int.pack(side=LEFT)
+entry_int.pack(side=RIGHT)
+
+frame_fai = Frame(root, height=20)
+frame_fai.place(x=300, y=110)
+lbl_fai = Label(frame_fai, text="Faith:")
+entry_fai = Entry(frame_fai)
+lbl_fai.pack(side=LEFT)
+entry_fai.pack(side=RIGHT)
+
+frame_arc = Frame(root, height=20)
+frame_arc.place(x=300, y=140)
+lbl_arc = Label(frame_arc, text="Arcane:")
+entry_arc = Entry(frame_arc)
+lbl_arc.pack(side=LEFT)
+entry_arc.pack(side=RIGHT)
+
+frame_wep_lvl = Frame(root, height=20)
+frame_wep_lvl.place(x=300, y=170)
+lbl_wlvl = Label(frame_wep_lvl, text="Weapon Upgrade Level:")
+entry_wlvl = Entry(frame_wep_lvl)
+lbl_wlvl.pack(side=LEFT)
+entry_wlvl.pack(side=RIGHT)
+
+btn_calc = Button(root, width=20, height=2, text="Calculate")
+btn_calc.place(x=280, y=200)
+
+lbl_damages = Label(root, text="Damage Totals:")
+lbl_damages.place(x=280, y=250)
+lbox_wep_dmgs = Listbox(root, width=40, height=10)
+lbox_wep_dmgs.place(x=280, y=270)
+
+root.mainloop()
