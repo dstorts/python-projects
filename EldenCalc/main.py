@@ -39,17 +39,40 @@ attack_element_correct_param = pandas.read_csv('./data/attack_element_correct_pa
 #*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
 stat_list = ['str', 'dex', 'int', 'fai', 'arc']
 weapon_type = 'Claw'
-weapon_name = "Warhawk's Keen Talon"
-#weapon_name = 'Keen Raptor Talons'
+#weapon_name = "Warhawk's Keen Talon"
+weapon_name = 'Keen Raptor Talons'
 weapon_upgrade_lvl = 15
 player_str = 15
-player_dex = 48
+player_dex = 50
 player_int = 18
 player_fai = 10
 player_arc = 9
 player_stats = pandas.Series([player_str, player_dex, player_int, player_fai, player_arc],
                              index=stat_list)
 #*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+
+def calculate():
+    global player_stats, weapon_name, weapon_upgrade_lvl
+    player_stats.str = int(entry_str.get())
+    print(player_stats.str)
+    player_stats.dex = int(entry_dex.get())
+    player_stats.int = int(entry_int.get())
+    player_stats.fai = int(entry_fai.get())
+    player_stats.arc = int(entry_arc.get())
+    weapon_name = entry_wep_name.get()
+    weapon_upgrade_lvl = int(entry_wlvl.get())
+
+    calculated_damages = calc_all_damage_totals(weapon_name, player_stats, weapon_upgrade_lvl, False)
+    print(calculated_damages)
+    lbox_wep_dmgs.delete(0, 'end')
+    #'phys_total', 'magic_total', 'fire_total', 'thun_total', 'holy_total'
+    lbox_wep_dmgs.insert(0, f"Physical: {int(calculated_damages.phys_total)}")
+    lbox_wep_dmgs.insert(1, f"Magic: {int(calculated_damages.magic_total)}")
+    lbox_wep_dmgs.insert(2, f"Fire: {int(calculated_damages.fire_total)}")
+    lbox_wep_dmgs.insert(3, f"Thun: {int(calculated_damages.thun_total)}")
+    lbox_wep_dmgs.insert(4, f"Holy: {int(calculated_damages.holy_total)}")
+    return 0
+
 def set_weapon_upgrade_lvl(lvl):
     global weapon_upgrade_lvl
     weapon_upgrade_lvl = lvl
@@ -262,7 +285,7 @@ def calc_all_damage_totals(wep_name, player_stats, weapon_upgrade_lvl, debug=Fal
     thun_total  = calc_total_dmg(upgraded_weapon_stats, thun_bonus,  'thun')
     holy_total  = calc_total_dmg(upgraded_weapon_stats, holy_bonus,  'holy')
     return pandas.Series([phys_total, magic_total, fire_total, thun_total, holy_total],
-                         index=['phys_total', 'magic_total', 'fire_total', 'thun_total', 'holy_total', ])
+                         index=['phys_total', 'magic_total', 'fire_total', 'thun_total', 'holy_total'])
 
 #print(f"Choice: {weapon_name}")
 #print(f"Weapon Type: {get_weapon_type(weapon_name)}")
@@ -291,6 +314,7 @@ frame_wep_search = Frame(root, height=20, width=50)
 frame_wep_search.place(x=20, y=80)
 lbl_wep_literal = Label(frame_wep_search, text="Weapon Search:")
 entry_wep_name = tkinter.Entry(frame_wep_search)
+entry_wep_name.insert(0, weapon_name)
 lbl_wep_literal.pack(side=LEFT)
 entry_wep_name.pack(side=RIGHT)
 lbl_wep_suggestions = Label(root, text="Suggestions:")
@@ -302,6 +326,7 @@ frame_str = Frame(root, height=20)
 frame_str.place(x=300, y=20)
 lbl_str = Label(frame_str, text="Strength:")
 entry_str = Entry(frame_str)
+entry_str.insert(0, f"{player_stats['str']}")
 lbl_str.pack(side=LEFT)
 entry_str.pack(side=RIGHT)
 
@@ -309,6 +334,7 @@ frame_dex = Frame(root, height=20)
 frame_dex.place(x=300, y=50)
 lbl_dex = Label(frame_dex, text="Dexterity:")
 entry_dex = Entry(frame_dex)
+entry_dex.insert(0, f"{player_stats['dex']}")
 lbl_dex.pack(side=LEFT)
 entry_dex.pack(side=RIGHT)
 
@@ -316,6 +342,7 @@ frame_int = Frame(root, height=20)
 frame_int.place(x=300, y=80)
 lbl_int = Label(frame_int, text="Intelligence:")
 entry_int = Entry(frame_int)
+entry_int.insert(0, f"{player_stats['int']}")
 lbl_int.pack(side=LEFT)
 entry_int.pack(side=RIGHT)
 
@@ -323,6 +350,7 @@ frame_fai = Frame(root, height=20)
 frame_fai.place(x=300, y=110)
 lbl_fai = Label(frame_fai, text="Faith:")
 entry_fai = Entry(frame_fai)
+entry_fai.insert(0, f"{player_stats['fai']}")
 lbl_fai.pack(side=LEFT)
 entry_fai.pack(side=RIGHT)
 
@@ -330,6 +358,7 @@ frame_arc = Frame(root, height=20)
 frame_arc.place(x=300, y=140)
 lbl_arc = Label(frame_arc, text="Arcane:")
 entry_arc = Entry(frame_arc)
+entry_arc.insert(0, f"{player_stats['arc']}")
 lbl_arc.pack(side=LEFT)
 entry_arc.pack(side=RIGHT)
 
@@ -337,10 +366,11 @@ frame_wep_lvl = Frame(root, height=20)
 frame_wep_lvl.place(x=300, y=170)
 lbl_wlvl = Label(frame_wep_lvl, text="Weapon Upgrade Level:")
 entry_wlvl = Entry(frame_wep_lvl)
+entry_wlvl.insert(0, f"{weapon_upgrade_lvl}")
 lbl_wlvl.pack(side=LEFT)
 entry_wlvl.pack(side=RIGHT)
 
-btn_calc = Button(root, width=20, height=2, text="Calculate")
+btn_calc = Button(root, width=20, height=2, text="Calculate", command=calculate)
 btn_calc.place(x=280, y=200)
 
 lbl_damages = Label(root, text="Damage Totals:")
